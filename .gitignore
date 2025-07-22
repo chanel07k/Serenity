@@ -5,7 +5,8 @@
 *.iml
 out/
 .serenity/
-# Carpeta Target que genera serenity
-!target/
-target/site/*
+# Ignora todo target excepto el reporte de Serenity
+target/*
+!target/site/serenity/
+!target/site/serenity/**
 
