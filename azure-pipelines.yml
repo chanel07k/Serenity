@@ -1,0 +1,30 @@
+trigger:
+  - main  # O "master", según tu rama principal
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.jvmargs=--enable-native-access=ALL-UNNAMED"
+
+steps:
+  # 1. Usa Java 11
+  - task: UseJava@1
+    inputs:
+      version: '11'
+      architecture: 'x64'
+
+  # 2. Ejecuta Gradle: clean, test y genera el reporte
+  - task: Gradle@2
+    inputs:
+      gradleWrapperFile: 'gradlew'
+      tasks: 'clean test aggregate'
+      publishJUnitResults: true
+      testResultsFiles: '**/TEST-*.xml'
+
+  # 3. Publica el reporte de Serenity como artefacto
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: 'target/site/serenity'
+      artifactName: 'SerenityReport'
+      publishLocation: 'Container'
