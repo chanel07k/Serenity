@@ -9,10 +9,14 @@ variables:
 
 steps:
   # 1. Usa Java 11
-  - task: UseJava@1
+  - task: Bash@3
     inputs:
-      version: '11'
-      architecture: 'x64'
+      targetType: 'inline'
+      script: |
+        sudo apt-get update
+        sudo apt-get install -y openjdk-11-jdk
+        echo "##vso[task.setvariable variable=JAVA_HOME]/usr/lib/jvm/java-11-openjdk-amd64"
+        java -version
 
   # 2. Ejecuta Gradle: clean, test y genera el reporte
   - task: Gradle@2
