@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'net.serenity-bdd.serenity-gradle-plugin' version '4.2.34'
+    id 'eclipse'
+    id 'idea'
+}
+
+group = 'co.com.blades.proyecto'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    implementation 'net.serenity-bdd:serenity-core:4.2.34'
+    implementation 'net.serenity-bdd:serenity-junit:4.2.34'
+    implementation 'net.serenity-bdd:serenity-cucumber:4.2.34'
+    implementation 'net.serenity-bdd:serenity-screenplay:4.2.34'
+    implementation 'net.serenity-bdd:serenity-screenplay-webdriver:4.2.34'
+
+    implementation 'org.slf4j:slf4j-simple:2.0.17'
+    implementation 'org.assertj:assertj-core:3.27.3'
+    implementation 'org.apache.pdfbox:pdfbox:3.0.5'
+    implementation 'org.seleniumhq.selenium:selenium-java:4.34.0'
+}
+
+gradle.startParameter.continueOnFailure = true
+
+tasks.named('test', Test).configure {
+    useJUnitPlatform()
+    doFirst {
+        delete 'target/site/serenity/index.html'
+    }
+    finalizedBy(tasks.named('aggregate'))
+}
+
+tasks.named('test').configure {
+    useJUnitPlatform()
+}
