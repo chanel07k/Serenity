@@ -1,9 +1,11 @@
 .idea/
 .gradle/
-target/
 *.log
 *.class
 *.iml
 out/
 .serenity/
+# Carpeta Target que genera serenity
+!target/
+target/site/*
 
